@@ -1,11 +1,42 @@
-import React from 'react'
-import { useDataContext } from '../Context/DataContext'
+import { useDataContext } from "../Context/DataContext";
 
 const Resume = () => {
-  const {data} = useDataContext();
-  return (
-    <div>Resume</div>
-  )
-}
+  const { data } = useDataContext();
 
-export default Resume
+  if (!data) return null;
+  return (
+    <section>
+      <div className="resume flex mb">
+        <div className="box">
+          <h2>Vendas</h2>
+          <span>
+            {data
+              .reduce((previousValue, item) => previousValue + item.preco, 0)
+              .toLocaleString("pt-br", { style: "currency", currency: "BRL" })}
+          </span>
+        </div>
+        <div className="box">
+          <h2>Recebido</h2>
+          <span>
+            {data
+              .filter((item) => item.status !== "falha")
+              .reduce((previousValue, item) => previousValue + item.preco, 0)
+              .toLocaleString("pt-br", { style: "currency", currency: "BRL" })}
+          </span>
+        </div>
+        <div className="box">
+          <h2>Processando</h2>
+          <span>
+            {data
+              .filter((item) => item.status === "processando")
+              .reduce((previousValue, item) => previousValue + item.preco, 0)
+              .toLocaleString("pt-br", { style: "currency", currency: "BRL" })}
+          </span>
+        </div>
+      </div>
+      <div className="box">Gráficos</div>
+    </section>
+  );
+};
+
+export default Resume;
