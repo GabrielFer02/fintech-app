@@ -1,9 +1,19 @@
-import React from 'react'
+import { useDataContext } from "../Context/DataContext";
+import SalesItem from "../Components/SalesItem";
 
 const Sales = () => {
-  return (
-    <div>Sales</div>
-  )
-}
+  const { data } = useDataContext();
 
-export default Sales
+  if (!data) return null;
+  return (
+    <ul>
+      {data.map((item) => (
+        <li key={item.id}>
+          <SalesItem venda={item} />
+        </li>
+      ))}
+    </ul>
+  );
+};
+
+export default Sales;
