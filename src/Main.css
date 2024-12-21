@@ -90,7 +90,7 @@ ul {
   grid-template-columns: 240px auto;
 }
 
-.sidenav li{
+.sidenav li {
   display: flex;
   align-items: center;
   gap: var(--gap-s);
