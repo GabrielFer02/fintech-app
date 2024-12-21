@@ -10,27 +10,6 @@ import {
   YAxis,
 } from "recharts";
 
-const infoGraphics = [
-  {
-    data: "2023-05-03",
-    pago: 3000,
-    processando: 35345,
-    falha: 56456,
-  },
-  {
-    data: "2023-05-03",
-    pago: 3000,
-    processando: 35345,
-    falha: 56456,
-  },
-  {
-    data: "2023-05-03",
-    pago: 3000,
-    processando: 35345,
-    falha: 56456,
-  },
-];
-
 type SaleDay = {
   data: string;
   pago: number;
@@ -39,14 +18,24 @@ type SaleDay = {
 };
 
 function transformData(data: IVenda[]): SaleDay[] {
-  return [
-    {
-      data: "2023-05-03",
-      pago: 3000,
-      processando: 35345,
-      falha: 56456,
+  const dias = data.reduce(
+    (previousValue: { [key: string]: SaleDay }, item) => {
+      const dia = item.data.split(" ")[0];
+      if (!previousValue[dia]) {
+        previousValue[dia] = {
+          data: dia,
+          pago: 0,
+          falha: 0,
+          processando: 0,
+        };
+      }
+      previousValue[dia][item.status] += item.preco;
+      return previousValue;
     },
-  ];
+    {}
+  );
+
+  return Object.values(dias).map((dia) => ({...dia, data: dia.data.slice(5)}));
 }
 
 const GraphicSale = ({ data }: { data: IVenda[] }) => {
@@ -54,7 +43,7 @@ const GraphicSale = ({ data }: { data: IVenda[] }) => {
 
   return (
     <ResponsiveContainer width="100%" height={400}>
-      <LineChart data={infoGraphics}>
+      <LineChart data={transformedData}>
         <XAxis dataKey="data" />
         <YAxis />
         <Tooltip />
