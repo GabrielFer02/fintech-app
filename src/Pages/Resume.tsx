@@ -1,3 +1,4 @@
+import GraphicSale from "../Components/GraphicSale";
 import { useDataContext } from "../Context/DataContext";
 
 const Resume = () => {
@@ -34,7 +35,9 @@ const Resume = () => {
           </span>
         </div>
       </div>
-      <div className="box mb">Gráficos</div>
+      <div className="box mb">
+        <GraphicSale data={data}/>
+      </div>
     </section>
   );
 };
